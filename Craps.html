@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Craps Game</title>
+</head>
+<body>
+    <h1>Craps Game</h1>
+    <button id="rollButton">Roll Dice</button>
+    <div id="result"></div>
+    <script>
+        function rollDice() {
+            return Math.floor(Math.random() * 6) + 1;
+        }
+
+        function playCraps() {
+            const firstRoll = rollDice() + rollDice();
+            let resultMessage;
+
+            if (firstRoll === 7 || firstRoll === 11) {
+                resultMessage = `You rolled a ${firstRoll}. You win! 🎉`;
+            } else if (firstRoll === 2 || firstRoll === 3 || firstRoll === 12) {
+                resultMessage = `You rolled a ${firstRoll}. You lose! 😢`;
+            } else {
+                resultMessage = `You rolled a ${firstRoll}. Your point is now ${firstRoll}.`;
+                let point = firstRoll;
+
+                while (true) {
+                    const nextRoll = rollDice() + rollDice();
+                    if (nextRoll === point) {
+                        resultMessage = `You rolled a ${nextRoll}. You hit your point and win! 🎉`;
+                        break;
+                    } else if (nextRoll === 7) {
+                        resultMessage = `You rolled a ${nextRoll}. You rolled a 7 and lose! 😢`;
+                        break;
+                    } else {
+                        resultMessage += ` You rolled a ${nextRoll}. Keep rolling...`;
+                    }
+                }
+            }
+
+            document.getElementById('result').innerText = resultMessage;
+        }
+
+        document.getElementById('rollButton').addEventListener('click', playCraps);
+    </script>
+</body>
+</html>
